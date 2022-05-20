@@ -69,6 +69,7 @@ $(function(){
         drawNodeLine();
         userSetting();
         resultSetting();
+        arr();
     }
 
     function arr(){
@@ -85,11 +86,13 @@ $(function(){
         const randomValue = Math.floor((Math.random() * member) + 1);
         
         arr.splice(randomValue, 1, "당첨");
+        console.log(arr);
     }
 
 
     var userName = "";
     $(document).on('click', 'button.ladder-start', function(e){
+
         if(working){
             return false;
         }
@@ -228,6 +231,18 @@ $(function(){
              }, 100);
         }
 
+     //  var name_by_class = document.getElementsByClassName('node')[0].getAttribute('id');
+     //  var class_by_class = document.getElementsByClassName('node')[0].id;
+     //  console.log("[+] class by id : ", name_by_class);
+     //  console.log("[+] class by class : ", class_by_class);
+       console.log(node);
+     //   if(userList[i]=""){
+      //     if(arr[x] == "당첨"){
+       //      var flag = console.log('Segfault');
+
+             //"'+userList[i]+'" ==datanode
+  //  }}
+
     }
 
 
@@ -237,7 +252,6 @@ $(function(){
         var html = '';
         for(var i=0; i <  userList.length; i++){
             var color = '#'+(function lol(m,s,c){return s[m.floor(m.random() * s.length)] + (c && lol(m,s,c-1));})(Math,'0123456789ABCDEF',4);
-
             var x = userList[i].split('-')[0]*1;
             var y = userList[i].split('-')[1]*1;
             var left = x * 100  -30
@@ -250,19 +264,6 @@ $(function(){
     function resultSetting(){
          var resultList = LADDER_NODE[heightNode-1];
          console.log(resultList)
-
-         var name_by_class = document.getElementsByClassName('node')[0].getAttribute('id');
-         var class_by_class = document.getElementsByClassName('node')[0].id;
-        console.log("[+] class by id : ", name_by_class);
-        console.log("[+] class by class : ", class_by_class);
-        var z = 10;
-        console.log(node);
-         if(node= x - 10){
-            if(arr[x] = "당첨"){
-              var flag = console.log('Segfault');
-     }}
-
-
         var html = '';
         for(var i=0; i <  resultList.length; i++){
 
@@ -276,8 +277,7 @@ $(function(){
         }
     }
 
-    html += '<div class="answer-change" style="left:'+left+'"> <img src="https://i.ibb.co/QfW1rRB/image.png" alt="image" data-node="'+node+'"  border="0">'
-
+ 
     // init
     function drawNodeLine(){
 
