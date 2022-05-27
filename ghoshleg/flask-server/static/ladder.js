@@ -8,7 +8,8 @@ $(function(){
     var GLOBAL_FOOT_PRINT= {};
     var GLOBAL_CHECK_FOOT_PRINT= {};
     var working = false;
-
+    var randNum =0;         //22.05.22_edit_by.mjjjjj99 randNum 추가
+    var currentVal = 0;     //22.05.22_edit_by.mjjjjj99 currentVal 추가
         
     const WORD = {
         title:"사다리게임",
@@ -24,13 +25,14 @@ $(function(){
 
     function init(){
         heightNode = 10;
-
         LADDER_NODE = {};
         row =0;
         GLOBAL_FOOT_PRINT= {};
         GLOBAL_CHECK_FOOT_PRINT= {};
         working = false;
         canvasDraw();
+        numGenerator();   //22.05.22_edit_by.mjjjjj99 numGenerator추가
+
     }
 
         let id = $(this).attr('id'); 
@@ -69,12 +71,12 @@ $(function(){
         drawNodeLine();
         userSetting();
         resultSetting();
-        arr();
+//        arr();    //22.05.22_edit_by.mjjjjj99 비활성화
     }
 
     function arr(){
         const m = member;
-        const  n = 1;
+        const n = 1;
         let arr = new Array(m);
         for (var i = 0; i < m; i++) {
           arr[i] = new Array(n);
@@ -108,8 +110,18 @@ $(function(){
         var color =  _this.attr('data-color');
         startLineDrawing(node, color);
         userName =  $('input[data-node="'+node+'"]').val();
+
+        //22.05.22_edit_by.mjjjjj99현재 아이디를 전역변수에 저장
+        console.log("e.target.id 현재 버튼 아이디"+e.target.id)
+        currentVal = e.target.id
     })
-    
+
+    //22.05.22_edit_by.mjjjjj99당첨 Id 랜덤으로 선정 (전역변수에 저장)
+    function numGenerator (){
+        randNum = Math.floor((Math.random() * widthNode));
+        console.log(randNum+':randNum')
+    }
+
     function startLineDrawing(node , color){
 
         var node = node;
@@ -122,6 +134,16 @@ $(function(){
         GLOBAL_CHECK_FOOT_PRINT[node] = true;
         
         var dir = 'r'
+
+         //22.05.22_edit_by.mjjjjj99 y값이 10이면 당첨여부 알람뜨는 부분
+        if(y =='10'){
+            if (currentVal == randNum){
+                alert('당첨')
+            }else{
+                alert("꽝")
+            }
+        }
+
         if(y ==heightNode ){
             reSetCheckFootPrint();
             var target = $('input[data-node="'+node+'"]');
@@ -231,17 +253,9 @@ $(function(){
              }, 100);
         }
 
-     //  var name_by_class = document.getElementsByClassName('node')[0].getAttribute('id');
-     //  var class_by_class = document.getElementsByClassName('node')[0].id;
-     //  console.log("[+] class by id : ", name_by_class);
-     //  console.log("[+] class by class : ", class_by_class);
-       console.log(node);
-     //   if(userList[i]=""){
-      //     if(arr[x] == "당첨"){
-       //      var flag = console.log('Segfault');
 
-             //"'+userList[i]+'" ==datanode
-  //  }}
+       console.log(node);
+
 
     }
 
@@ -255,7 +269,10 @@ $(function(){
             var x = userList[i].split('-')[0]*1;
             var y = userList[i].split('-')[1]*1;
             var left = x * 100  -30
-            html += '<div class="user-wrap" style="left:'+left+'"><input type="hidden" data-node="'+userList[i]+'"><button class="ladder-start" style="background-color:'+color+'" data-color="'+color+'" data-node="'+userList[i]+'"></button>';
+
+             //22.05.22_edit_by.mjjjjj99 button에 ID값 추가
+            html += '<div class="user-wrap" style="left:'+left+'"><input type="hidden" data-node="'+userList[i]+'"><button class="ladder-start" '+'id ='+i+' style="background-color:'+color+'" data-color="'+color+'" data-node="'+userList[i]+'"></button>';
+//            html += '<div class="user-wrap" style="left:'+left+'"><input type="hidden" data-node="'+userList[i]+'"><button class="ladder-start" style="background-color:'+color+'" data-color="'+color+'" data-node="'+userList[i]+'"></button>';
             html +='</div>'
         }
         ladder.append(html);
@@ -263,22 +280,22 @@ $(function(){
    
     function resultSetting(){
          var resultList = LADDER_NODE[heightNode-1];
+         console.log('resultList'+resultList)
          console.log(resultList)
         var html = '';
         for(var i=0; i <  resultList.length; i++){
-
-                var x = resultList[i].split('-')[0]*1;
-                var y = resultList[i].split('-')[1]*1 + 1;
-                var node = x + "-" + y;
-                var left = x * 100  -30
-                html += '<div class="answer-wrap" style="left:'+left+'"> <img src="https://i.ibb.co/y8q690T/5447755.png" alt="image" data-node="'+node+'"  border="0">'
-                html +='</div>'
-                ladder.append(html);
+            var x = resultList[i].split('-')[0]*1;
+            var y = resultList[i].split('-')[1]*1 + 1;
+            var node = x + "-" + y;
+            var left = x * 100  -30
+            html += '<div class="answer-wrap" style="left:'+left+'"> <img src="https://i.ibb.co/y8q690T/5447755.png" alt="image" data-node="'+node+'"  border="0">'
+            html +='</div>'
         }
+
+
+        ladder.append(html);           //22.05.22_edit_by.mjjjjj99 answer-wrap이 중복으로 나와서 ladder.append(html)을 for문 밖으로 뺐어요
     }
 
- 
-    // init
     function drawNodeLine(){
 
         for(var y =0; y < heightNode; y++){
